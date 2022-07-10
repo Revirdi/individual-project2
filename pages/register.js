@@ -31,6 +31,7 @@ export default function Register() {
   const onRegisterClick = async () => {
     try {
       setisRegisterProcess(true);
+      // check password
       if (password != password2)
         return setErrorMessage("password did not match");
       const body = {
