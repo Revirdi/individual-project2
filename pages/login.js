@@ -43,7 +43,7 @@ export default function Login() {
       username,
       password,
     });
-
+    // checking empty field
     if (username == "") {
       setisLoginProcess(false);
       return setErrorMessage("Username field is empty");
