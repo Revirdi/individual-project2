@@ -58,7 +58,7 @@ export default function Register() {
       };
       const res = await axiosInstance.post("/users", body);
       setSuccessMessage(res.data.message);
-      setTimeout(() => router.push("/login"), 4000);
+      setTimeout(() => router.push("/login"), 3000);
     } catch (error) {
       console.log(error);
       if (error.response.data)
