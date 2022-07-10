@@ -9,7 +9,9 @@ import {
   Link,
   Stack,
   Image,
+  Text,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 
 export default function SplitScreen() {
   return (
@@ -28,6 +30,7 @@ export default function SplitScreen() {
       <Flex p={8} flex={1} align={"center"} justify={"center"}>
         <Stack spacing={4} w={"full"} maxW={"md"}>
           <Heading fontSize={"2xl"}>Sign in to your account</Heading>
+
           <FormControl id="email">
             <FormLabel>Email address</FormLabel>
             <Input type="email" />
@@ -45,6 +48,12 @@ export default function SplitScreen() {
               <Checkbox>Remember me</Checkbox>
               <Link color={"blue.500"}>Forgot password?</Link>
             </Stack>
+            <Text>
+              Don't have an account?{" "}
+              <NextLink href="/register">
+                <Link color={"blue.400"}>Sign Up</Link>
+              </NextLink>
+            </Text>
             <Button colorScheme={"blue"} variant={"solid"}>
               Sign in
             </Button>

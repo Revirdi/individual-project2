@@ -78,10 +78,10 @@ export default function Register() {
           width={"25vw"}
         >
           <Stack spacing={4}>
-            <Text color={"red.500"} fontSize={"lg"} fontWeight={"bold"}>
+            <Text color={"red.500"} fontSize={"lg"} fontWeight={"semibold"}>
               {errorMessage}
             </Text>
-            <Text color={"green.500"} fontSize={"lg"} fontWeight={"bold"}>
+            <Text color={"green.500"} fontSize={"lg"} fontWeight={"semibold"}>
               {successMessage}
             </Text>
             <FormControl id="username" isRequired>
@@ -163,7 +163,7 @@ export default function Register() {
               <Text align={"center"}>
                 Already have an account?{" "}
                 <NextLink href="/login">
-                  <Link color={"blue.400"}>Login</Link>
+                  <Link color={"blue.400"}>Sign In</Link>
                 </NextLink>
               </Text>
             </Stack>
