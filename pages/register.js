@@ -14,10 +14,12 @@ import {
   useColorModeValue,
   Link,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 import axiosInstance from "../services/axios";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,6 +30,18 @@ export default function Register() {
   const [isRegisterProcess, setisRegisterProcess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  const router = useRouter();
+
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    redirect();
+  });
+
+  const redirect = async () => {
+    if (session) await router.push("/home");
+  };
 
   const onRegisterClick = async () => {
     try {
@@ -44,6 +58,7 @@ export default function Register() {
       };
       const res = await axiosInstance.post("/users", body);
       setSuccessMessage(res.data.message);
+      setTimeout(() => router.push("/login"), 4000);
     } catch (error) {
       if (error.response.data)
         return setErrorMessage(error.response.data.message);

@@ -10,10 +10,47 @@ import {
   Stack,
   Image,
   Text,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
+import { useState, useEffect } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
-export default function SplitScreen() {
+export default function Login() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+  const [isLoginProcess, setisLoginProcess] = useState(false);
+
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    redirect();
+  });
+  const redirect = async () => {
+    if (session) return router.push("/home");
+  };
+
+  const onLoginClick = async () => {
+    setisLoginProcess(true);
+    const res = await signIn("credentials", {
+      redirect: false,
+      username,
+      password,
+    });
+
+    if (!res.error) {
+      router.replace("/home");
+    } else {
+      alert(res.error);
+    }
+    setisLoginProcess(false);
+  };
+
   return (
     <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
       <Flex flex={1}>
@@ -33,11 +70,31 @@ export default function SplitScreen() {
 
           <FormControl id="email">
             <FormLabel>Email address</FormLabel>
-            <Input type="email" />
+            <Input
+              type="email"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+            />
           </FormControl>
-          <FormControl id="password">
+          <FormControl id="password" isRequired>
             <FormLabel>Password</FormLabel>
-            <Input type="password" />
+            <InputGroup>
+              <Input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+              />
+              <InputRightElement h={"full"}>
+                <Button
+                  variant={"ghost"}
+                  onClick={() =>
+                    setShowPassword((showPassword) => !showPassword)
+                  }
+                >
+                  {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
           </FormControl>
           <Stack spacing={6}>
             <Stack
@@ -54,7 +111,13 @@ export default function SplitScreen() {
                 <Link color={"blue.400"}>Sign Up</Link>
               </NextLink>
             </Text>
-            <Button colorScheme={"blue"} variant={"solid"}>
+            <Button
+              isLoading={isLoginProcess}
+              loadingText={"Submit"}
+              colorScheme={"blue"}
+              variant={"solid"}
+              onClick={onLoginClick}
+            >
               Sign in
             </Button>
           </Stack>

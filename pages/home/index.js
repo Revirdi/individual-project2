@@ -1,9 +1,25 @@
 import Head from "next/head";
-import React from "react";
+import React, { useEffect } from "react";
 import Sidebar from "../../components/Sidebar";
-import { Flex, Spacer } from "@chakra-ui/react";
+import { Flex, Spacer, Button } from "@chakra-ui/react";
+import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/router";
 
 function Home() {
+  const router = useRouter();
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    redirect();
+  });
+
+  const redirect = async () => {
+    if (!session) return router.push("/login");
+  };
+
+  const onLogoutClick = async () => {
+    await signOut();
+  };
   return (
     <Flex height="100vh" maxWidth="1300px" ms="auto" me="auto" padding="0 10px">
       <Head>
@@ -12,6 +28,9 @@ function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Sidebar />
+      <Button onClick={onLogoutClick} variant="ghost" my={5} w="100%">
+        Logout
+      </Button>
     </Flex>
   );
 }
