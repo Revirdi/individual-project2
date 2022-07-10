@@ -27,9 +27,12 @@ export default function Register() {
   const [password2, setPassword2] = useState("");
   const [isRegisterProcess, setisRegisterProcess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const onRegisterClick = async () => {
     try {
+      setErrorMessage("");
+      setSuccessMessage("");
       setisRegisterProcess(true);
       // check password
       if (password != password2)
@@ -37,10 +40,10 @@ export default function Register() {
       const body = {
         username,
         email,
-        password2,
+        password: password2,
       };
       const res = await axiosInstance.post("/users", body);
-      setErrorMessage(res.data.message);
+      setSuccessMessage(res.data.message);
     } catch (error) {
       if (error.response.data)
         return setErrorMessage(error.response.data.message);
@@ -75,7 +78,12 @@ export default function Register() {
           width={"25vw"}
         >
           <Stack spacing={4}>
-            <Text color={"red.500"}>{errorMessage}</Text>
+            <Text color={"red.500"} fontSize={"lg"} fontWeight={"bold"}>
+              {errorMessage}
+            </Text>
+            <Text color={"green.500"} fontSize={"lg"} fontWeight={"bold"}>
+              {successMessage}
+            </Text>
             <FormControl id="username" isRequired>
               <FormLabel>Username</FormLabel>
               <Input
