@@ -25,6 +25,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const router = useRouter();
   const [isLoginProcess, setisLoginProcess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { data: session } = useSession();
 
@@ -43,10 +44,19 @@ export default function Login() {
       password,
     });
 
+    if (username == "") {
+      setisLoginProcess(false);
+      return setErrorMessage("Username field is empty");
+    }
+    if (password == "") {
+      setisLoginProcess(false);
+      return setErrorMessage("Password field is empty");
+    }
+
     if (!res.error) {
       router.replace("/home");
     } else {
-      alert(res.error);
+      setErrorMessage(res.error);
     }
     setisLoginProcess(false);
   };
@@ -67,11 +77,14 @@ export default function Login() {
       <Flex p={8} flex={1} align={"center"} justify={"center"}>
         <Stack spacing={4} w={"full"} maxW={"md"}>
           <Heading fontSize={"2xl"}>Sign in to your account</Heading>
+          <Text color={"red.400"} fontSize={"lg"} fontWeight={"semibold"}>
+            {errorMessage}
+          </Text>
 
-          <FormControl id="email">
-            <FormLabel>Email address</FormLabel>
+          <FormControl id="email" isRequired>
+            <FormLabel>Username or Email</FormLabel>
             <Input
-              type="email"
+              type="text"
               value={username}
               onChange={(event) => setUsername(event.target.value)}
             />

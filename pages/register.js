@@ -60,6 +60,7 @@ export default function Register() {
       setSuccessMessage(res.data.message);
       setTimeout(() => router.push("/login"), 4000);
     } catch (error) {
+      console.log(error);
       if (error.response.data)
         return setErrorMessage(error.response.data.message);
       setErrorMessage(error.message);
