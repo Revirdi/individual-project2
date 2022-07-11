@@ -35,13 +35,14 @@ export default function Register() {
 
   const { data: session } = useSession();
 
-  useEffect(() => {
-    redirect();
-  });
+  // useEffect(() => {
+  //   redirect();
+  // });
 
-  const redirect = async () => {
-    if (session) await router.push("/home");
-  };
+  // const redirect = async () => {
+  //   if (session) await router.push("/home");
+  // };
+  if (session) router.replace("/home");
 
   const onRegisterClick = async () => {
     try {

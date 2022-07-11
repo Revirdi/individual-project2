@@ -28,13 +28,14 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const { data: session } = useSession();
+  if (session) router.replace("/home");
 
-  useEffect(() => {
-    redirect();
-  });
-  const redirect = async () => {
-    if (session) return router.push("/home");
-  };
+  // useEffect(() => {
+  //   redirect();
+  // });
+  // const redirect = async () => {
+  //   if (session) return router.push("/home");
+  // };
 
   const onLoginClick = async () => {
     setisLoginProcess(true);
